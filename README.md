@@ -15,7 +15,7 @@ MOSI - PA7
 
 Not all stm pins are working with this screen.
 
-Correctly working pins:
+Correctly working pins:  
 PC13  
 PC14  
 PC15  
