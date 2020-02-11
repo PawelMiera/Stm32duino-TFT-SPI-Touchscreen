@@ -7,7 +7,7 @@
 #define TFT_CS PB10
 #define TFT_RST PB0
 
-Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC,TFT_RST);
+Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC,TFT_RST);  ////////// SCK - PA5 // MISO - PA6 // MOSI - PA7 // 
 
 URTouch  myTouch( PB11, PA9, PA8, PB15, PB14);
 ///////////////////////////////////////////
