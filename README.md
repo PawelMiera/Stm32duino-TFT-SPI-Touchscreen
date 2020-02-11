@@ -3,6 +3,11 @@ You need to install 2 libraries:
 URTouch.h: https://github.com/f1rmb/URTouch/blob/master/URTouch.h  
 Adafruit_ILI9341.h: https://github.com/adafruit/Adafruit_ILI9341  
 
+You need to connect:
+SCK - PA5  
+MISO - PA6
+MOSI - PA7
+
 Not all stm pins are working with this screen.
 
 Correctly working pins:
