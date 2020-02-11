@@ -2,7 +2,7 @@
 #include "Adafruit_GFX.h"
 #include "Adafruit_ILI9341.h"
 #include <URTouch.h>
-#include "FastLED.h"
+
 #define TFT_DC PB1
 #define TFT_CS PB10
 #define TFT_RST PB0
@@ -10,7 +10,7 @@
 Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC,TFT_RST);
 
 URTouch  myTouch( PB11, PA9, PA8, PB15, PB14);
-//////////////////////////strony i hover/////////////////
+///////////////////////////////////////////
 int chooseColor[7][12];
 bool colorHover = false;
 bool startHover = false;
@@ -29,205 +29,34 @@ int ind=0;
 int offTime=millis();
 int x = -1, y = -1;
 ////////////////////////////////    
-String header="";
-String tempCommand="";
-String command="";
-//////////////////////////////// lights
-#define DATA_PIN PB13
-#define LED_TYPE WS2812B
-#define COLOR_ORDER GRB
-#define NUM_LEDS 90
-#define BRIGHTNESS 200
 
-CRGB leds[NUM_LEDS];
 
 
 void setup() 
 {
   
   Serial.begin(115200);
-  Serial2.begin(115200);
   myTouch.InitTouch();
   myTouch.setPrecision(PREC_EXTREME);
   tft.begin();
   yield();
-  // FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
-  FastLED.addLeds<LED_TYPE,DATA_PIN,COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip); // initializes LED strip
-  FastLED.setBrightness(BRIGHTNESS);// global brightness
  
   setColorArray();
   loading();
-
 }
 
 void loop() 
 {
 
-  readSerial();
-  
   readTouch();
 
   operateTouch();
 
   turnOff();
 
-  manageLights();
-}
-
-//////////////////////////////////swiatla////////////////////////////////
-void manageLights()
-{
-  if(mode==0)                       ///////normal
-  {
-    
-  }
-  else if(mode==1)                  ////////disco
-  {
-    
-  }
-  else if(mode==2)                 ///////random
-  {
-
-  }
 }
 
 
-void setPixel(int Pixel, byte red, byte green, byte blue) {
-   leds[Pixel].r = red;
-   leds[Pixel].g = green;
-   leds[Pixel].b = blue;
-}
-
-
-void setPixelHSV(int Pixel, byte h, byte s, byte v) {
-    leds[Pixel]=CHSV(h,s,v);
-}
-
-void SparkleRandom(int SpeedDelay) {
-  int Pixel = random(NUM_LEDS);
-  setPixelHSV(Pixel,random(255),255,255);
-  FastLED.show();
-  delay(SpeedDelay);
-}
-
-
-void setAll(byte r , byte g, byte b)
-{
-  for (int i = 0; i < NUM_LEDS; ++i)  
-  {
-    leds[i].r=r;
-    leds[i].g=g;
-    leds[i].b=b;
-  }  
-  FastLED.show();
-}
-
-void theaterChase(int color, int wait) {
-  for(int a=0; a<10; a++) {  // Repeat 10 times...
-    for(int b=0; b<3; b++) { //  'b' counts from 0 to 2...
-        for (int i = 0; i < NUM_LEDS; ++i) {
-          leds[i] = CRGB::Black;
-        }
-
-      for(int c=b; c<NUM_LEDS; c += 3) {
-       setPixelHSV(c,color,255,255);   
-      }
-      FastLED.show();  
-      delay(wait);  // Pause for a moment
-    }
-  }
-}
-
-void meteorRain(byte color1,int color2 , byte meteorSize, byte meteorTrailDecay, boolean meteorRandomDecay, int SpeedDelay) {  
-  setAll(0,0,0);
- 
-  for(int i = 0; i < NUM_LEDS+NUM_LEDS-20; i++) {
-   
-   
-    // fade brightness all LEDs one step
-    for(int j=0; j<NUM_LEDS; j++) {
-      if( (!meteorRandomDecay) || (random(10)>5) ) {
-        fadeToBlack(j, meteorTrailDecay );        
-      }
-    }
-   
-    // draw meteor
-    for(int j = 0; j < meteorSize; j++) {
-      if( ( i-j <NUM_LEDS) && (i-j>=0) ) {
-        setPixelHSV(i-j,color1,255,255);
-      }
-    }
-       for(int j = 0; j < meteorSize; j++) {
-      if( (89-i-j <NUM_LEDS) && (89-i-j>=0) ) {
-        setPixelHSV(89-i-j,color2,255,255);
-      }
-    }
-     FastLED.show();
-    delay(SpeedDelay);
-  }
-}
-
-void fadeToBlack(int ledNo, byte fadeValue) {
- #ifdef ADAFRUIT_NEOPIXEL_H
-    // NeoPixel
-    uint32_t oldColor;
-    uint8_t r, g, b;
-    int value;
-   
-    oldColor = strip.getPixelColor(ledNo);
-    r = (oldColor & 0x00ff0000UL) >> 16;
-    g = (oldColor & 0x0000ff00UL) >> 8;
-    b = (oldColor & 0x000000ffUL);
-
-    r=(r<=10)? 0 : (int) r-(r*fadeValue/256);
-    g=(g<=10)? 0 : (int) g-(g*fadeValue/256);
-    b=(b<=10)? 0 : (int) b-(b*fadeValue/256);
-   
-    strip.setPixelColor(ledNo, r,g,b);
- #endif
- #ifndef ADAFRUIT_NEOPIXEL_H
-   // FastLED
-   leds[ledNo].fadeToBlackBy( fadeValue );
- #endif  
-}
-////////////////////////////////////////////////////////////////////
-
-void readSerial()
-{
-  while(Serial2.available())
-  {
-    String s="";
-    char c = Serial2.read();
-    header+=c;
-    if(c=='#')
-    {
-
-      bool startAdding=false;     
-      for(int i=0;i<header.length();i++)
-      {
-
-        if(header[i]=='@')
-        {
-          startAdding=true;
-          i++;
-        }
-        if(header[i]=='#')
-        {
-           header="";
-           break;
-        }
-        if(startAdding==true)
-        {
-                
-          s+=(char)header[i];
-        }
-      }
-      command=s;
-      header="";
-      Serial.println(command);
-    }
-  }
-}
 
 void turnOff()
 {
