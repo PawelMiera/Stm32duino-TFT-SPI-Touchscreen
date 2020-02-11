@@ -1,20 +1,20 @@
 Code to operate touch and display with TFT SPI screen. I'm using the stm bluepill stm32f103c8t6 and Arduino IDE.
-You need to install 2 libraries:
-URTouch.h: https://github.com/f1rmb/URTouch/blob/master/URTouch.h
-Adafruit_ILI9341.h: https://github.com/adafruit/Adafruit_ILI9341
+You need to install 2 libraries:  
+URTouch.h: https://github.com/f1rmb/URTouch/blob/master/URTouch.h  
+Adafruit_ILI9341.h: https://github.com/adafruit/Adafruit_ILI9341  
 
 Not all stm pins are working with this screen.
 
 Correctly working pins:
-PC13
-PC14
-PC15
-PA0
-PA1
-PA2
-PA3
-PA4
-PB0
+PC13  
+PC14  
+PC15  
+PA0  
+PA1  
+PA2  
+PA3  
+PA4  
+PB0  
 PB1
 PB10
 PB11
