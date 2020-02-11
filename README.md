@@ -1,7 +1,7 @@
 Code to operate touch and display with TFT SPI screen. I'm using the stm bluepill stm32f103c8t6 and Arduino IDE.  
 
 <p align="center">
-  <img width="460" height="300" src="https://github.com/PawelMiera/Stm32duino-TFT-SPI-Touchscreen/blob/master/photos/gif.gif">
+  <img width="800" height="500" src="https://github.com/PawelMiera/Stm32duino-TFT-SPI-Touchscreen/blob/master/photos/gif.gif">
 </p>
 
 You need to install 2 libraries:   
