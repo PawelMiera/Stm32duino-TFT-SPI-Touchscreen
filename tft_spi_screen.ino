@@ -17,12 +17,12 @@ bool startHover = false;
 
 int page=0;
 int newPage=2;
-int mode=0;
+int mode=1;
 int newMode=1;
 int color=tft.color565(5*51, 5*51, 0);
 bool L1=true,L2=true,L3=true;
-bool newL1=true,newL2=true,newL3=true;
-bool all=true, newAll=true;
+bool newL1=false,newL2=false,newL3=false;
+bool all=true, newAll=false;
 bool global=true,newGlobal=false;
 int clickTime=millis();
 int ind=0;
