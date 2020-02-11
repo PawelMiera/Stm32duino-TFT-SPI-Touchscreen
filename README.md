@@ -1,6 +1,8 @@
 Code to operate touch and display with TFT SPI screen. I'm using the stm bluepill stm32f103c8t6 and Arduino IDE.  
+<p align="center">
+  ![](photos/gif.gif)
+</p>
 
-![](photos/gif.gif)
 
 You need to install 2 libraries:   
 URTouch.h: https://github.com/f1rmb/URTouch/blob/master/URTouch.h  
