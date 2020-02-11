@@ -1,4 +1,7 @@
 Code to operate touch and display with TFT SPI screen. I'm using the stm bluepill stm32f103c8t6 and Arduino IDE.  
+
+![](photos/)
+
 You need to install 2 libraries:   
 URTouch.h: https://github.com/f1rmb/URTouch/blob/master/URTouch.h  
 Adafruit_ILI9341.h: https://github.com/adafruit/Adafruit_ILI9341  
